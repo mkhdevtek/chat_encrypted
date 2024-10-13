@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat en Tiempo Real</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>Chat en Tiempo Real</h1>
+
+  <!-- Menú para cambiar el tema -->
+  <div id="theme-menu">
+    <label for="theme-select">Seleccionar tema:</label>
+    <select id="theme-select">
+      <option value="light">Claro</option>
+      <option value="dark">Oscuro</option>
+    </select>
+  </div>
+
+  <!-- Formulario para ingresar el nombre de usuario -->
+  <div id="user-setup">
+    <label for="username">Ingresa tu nombre:</label>
+    <input id="username" type="text" autocomplete="off" />
+    <button id="start-chat">Iniciar Chat</button>
+  </div>
+
+  <!-- Sección del chat, oculta hasta que el usuario ingresa un nombre -->
+  <div id="chat-container" style="display:none;">
+    <!-- Lista de usuarios conectados -->
+    <div id="users-list">
+      <h3>Usuarios Conectados</h3>
+      <ul id="users"></ul>
+    </div>
+
+    <!-- Caja de chat -->
+    <div id="chat-box">
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

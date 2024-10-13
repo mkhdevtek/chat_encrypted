@@ -1,0 +1,109 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+.light-theme {
+  background-color: #f4f4f4;
+  color: #000;
+}
+
+#chat-container {
+  display: flex;
+  height: 100vh;
+}
+
+.menu-hamburger {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.menu-content {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.chat-section {
+  display: flex;
+  flex-grow: 1;
+  margin-left: 50px;
+}
+
+.user-list {
+  width: 200px;
+  background-color: #444;
+  padding: 10px;
+  border-right: 1px solid #555;
+}
+
+.chat-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#messages {
+  flex-grow: 1;
+  padding: 10px;
+  background-color: #555;
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+
+form {
+  display: flex;
+  background-color: #444;
+  padding: 10px;
+}
+
+form input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+}
+
+form button {
+  padding: 10px;
+  background-color: #555;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Estilos para el tema claro */
+.light-theme .chat-box {
+  background-color: #eaeaea;
+}
+
+.light-theme #messages {
+  background-color: #fff;
+}
+
+.light-theme form input {
+  background-color: #ddd;
+  color: #000;
+}
+
+.light-theme form button {
+  background-color: #ccc;
+  color: #000;
+}

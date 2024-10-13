@@ -1,0 +1,163 @@
+/* Para el tema claro */
+:root {
+  --background-color: #ffffff;
+  --message-bg-color: #f4f4f4;
+  --my-message-bg-color: #dcf8c6;
+  --input-bg-color: #e0e0e0;
+  --input-text-color: #333;
+  --button-bg-color: #ccc;
+  --button-text-color: #333;
+  --border-color: #999;
+  --text-color: #000;
+  --bg-image-color: rgba(50, 50, 50, 0.5);
+}
+
+/* Para el tema oscuro */
+.dark-theme {
+  --background-color: #2c2c2c;
+  --message-bg-color: #4f4f4f;
+  --my-message-bg-color: #81c784;
+  --input-bg-color: #3a3a3a;
+  --input-text-color: #e0e0e0;
+  --button-bg-color: #5c5c5c;
+  --button-text-color: #e0e0e0;
+  --border-color: #555;
+  --text-color: #ffffff;
+  --bg-image-color: rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--message-bg-color);
+  text-align: left;
+}
+
+.username {
+  padding-bottom: 10px;
+}
+
+.my-message {
+  background-color: var(--my-message-bg-color);
+  text-align: right;
+}
+
+.message-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+}
+
+/* Mensajes enviados - Ocultar nombre */
+.my-message-container .username {
+  display: none; /* Ocultar nombre en los mensajes enviados */
+}
+
+.my-message-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  margin-right: 10px;
+  background-color: var(--input-bg-color);
+  color: var(--input-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#chat-box {
+  display: block;
+  min-width: 65dvw;
+  margin: 0 auto;
+}
+
+#messages {
+  display: block;
+  min-width: 65dvh;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #888;
+  height: 400px;
+  overflow-y: auto;
+  /*  background-image: url('../images/pattern.png');*/
+  background-color: --bg-image-color;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#theme-menu {
+  margin-bottom: 20px;
+}
+
+#theme-menu label {
+  margin-right: 10px;
+}
+/* Contenedor general */
+#chat-container {
+  display: flex;
+}
+
+/* Lista de usuarios */
+#users-list {
+  width: 200px;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+#users-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#users-list li {
+  padding: 10px;
+  background-color: var(--message-bg-color);
+  margin-bottom: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#users-list li:hover {
+  background-color: var(--my-message-bg-color);
+}
+
+/* Caja de chat */
+#chat-box {
+  flex: 1;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+}
