@@ -5,16 +5,17 @@ const messages = document.getElementById('messages');
 const usernameInput = document.getElementById('username');
 const startChatButton = document.getElementById('start-chat');
 const themeSelect = document.getElementById('theme-select');
-const usersList = document.getElementById('users');
+
+// const encryption = encrypt_decrypt();
+
 let username = '';
-let selectedUser = ''; // Usuario seleccionado para mensajes directos
 
 // Al hacer clic en "Iniciar Chat"
 startChatButton.addEventListener('click', () => {
   username = usernameInput.value.trim();
   if (username) {
     document.getElementById('user-setup').style.display = 'none';
-    document.getElementById('chat-container').style.display = 'flex';
+    document.getElementById('chat-container').style.display = 'block';
     socket.emit('user joined', username);
   }
 });
@@ -23,75 +24,47 @@ startChatButton.addEventListener('click', () => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   if (input.value && username) {
+    let message = send_message(input.value);
+    // let message = input.value;
     const messageData = {
       username: username,
-      message: input.value,
-      to: selectedUser // Enviar el mensaje al usuario seleccionado
+      message: message
     };
-    socket.emit('chat message', messageData); // Enviar el mensaje al servidor
+    socket.emit('chat message', messageData); // Enviar el mensaje con el nombre del usuario al servidor
     input.value = ''; // Limpiar el campo de entrada
   }
 });
 
 // Escuchar los mensajes desde el servidor
 socket.on('chat message', (msg) => {
-  if (msg.to === selectedUser || msg.username === username || !msg.to) {
-    const item = document.createElement('li');
-    const messageContainer = document.createElement('div');
-  
-    item.textContent = msg.message;
-    if (msg.username === username) {
-      messageContainer.classList.add('my-message-container');
-      item.classList.add('my-message');
-    } else {
-      messageContainer.classList.add('message-container');
-      item.classList.add('message');
-      // Añadir el nombre del remitente a los mensajes recibidos
-      const usernameElement = document.createElement('strong');
-      usernameElement.textContent = msg.username + ': ';
-      item.prepend(usernameElement);
-    }
-  
-    messageContainer.appendChild(item);
-    messages.appendChild(messageContainer); // Añadir el mensaje a la lista
-    window.scrollTo(0, document.body.scrollHeight); // Desplazarse hacia abajo automáticamente
-  }
-});
+  const item = document.createElement('li');
+  const messageContainer = document.createElement('div');
 
-// Actualizar la lista de usuarios conectados
-socket.on('user list', (users) => {
-  usersList.innerHTML = ''; // Limpiar la lista de usuarios
+  let cryptedMsg = msg.message.message;
+  let rows = msg.message.rows;
+  let cols = msg.message.cols;
+  let size = msg.message.size;
+  console.log('Message received: ' + cryptedMsg);
+  let textMsg = decrypt_RC(cryptedMsg, rows, cols, size);
+  console.log('Message decrypted: ' + textMsg);
 
-  users.forEach((user) => {
-    if (user !== username) { // Evitar añadir al usuario actual a la lista
-      const userItem = document.createElement('li');
-      userItem.textContent = user;
-      userItem.addEventListener('click', () => {
-        selectedUser = user; // Seleccionar usuario para mensajes privados
-        alert(`Enviando mensajes a ${user}`);
-        loadChatForUser(selectedUser); // Cargar el chat del usuario seleccionado
-      });
-      usersList.appendChild(userItem);
-    }
-  });
-});
-
-// Cargar mensajes de chat para un usuario seleccionado
-function loadChatForUser(user) {
-  messages.innerHTML = ''; // Limpiar la caja de mensajes
-  if (!user) {
-    const noChatMessage = document.createElement('li');
-    noChatMessage.textContent = 'No has seleccionado ningún chat.';
-    messages.appendChild(noChatMessage);
+  item.textContent = textMsg;
+  if (msg.username === username) {
+    messageContainer.classList.add('my-message-container');
+    item.classList.add('my-message');
   } else {
-    const userChatMessage = document.createElement('li');
-    userChatMessage.textContent = `Chat iniciado con ${user}.`;
-    messages.appendChild(userChatMessage);
+    messageContainer.classList.add('message-container');
+    item.classList.add('message');
+    // Añadir el nombre del remitente a los mensajes recibidos
+    const usernameElement = document.createElement('strong');
+    usernameElement.textContent = msg.username + ': ';
+    item.prepend(usernameElement);
   }
-}
 
-// Cargar chat vacío al iniciar
-loadChatForUser('');
+  messageContainer.appendChild(item);
+  messages.appendChild(messageContainer); // Añadir el mensaje a la lista
+  window.scrollTo(0, document.body.scrollHeight); // Desplazarse hacia abajo automáticamente
+});
 
 // Cambiar tema al seleccionar una opción
 themeSelect.addEventListener('change', (e) => {

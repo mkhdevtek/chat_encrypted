@@ -1,46 +1,37 @@
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
+const socketIo = require('socket.io');
+
+// Inicialización de la aplicación
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = socketIo(server);
 
+// Servir archivos estáticos
 app.use(express.static('public'));
 
-let users = [];
-
+// Manejar la conexión de los clientes
 io.on('connection', (socket) => {
-  // Escuchar cuando un usuario se une
+  console.log('Nuevo usuario conectado');
+
+  // Cuando un usuario se une al chat
   socket.on('user joined', (username) => {
-    socket.username = username;
-    users.push(username);
-    io.emit('user list', users); // Enviar la lista de usuarios actualizada
+    console.log(`${username} se ha unido al chat`);
   });
 
-  // Escuchar los mensajes de chat
+  // Escuchar el evento 'chat message' y reenviar el mensaje
   socket.on('chat message', (msg) => {
-    if (msg.to) {
-      // Enviar mensaje privado
-      const targetSocket = [...io.sockets.sockets.values()].find(
-        (s) => s.username === msg.to
-      );
-      if (targetSocket) {
-        targetSocket.emit('chat message', msg); // Enviar el mensaje al destinatario
-        socket.emit('chat message', msg); // Mostrar el mensaje también al remitente
-      }
-    } else {
-      // Enviar mensaje a todos
-      io.emit('chat message', msg);
-    }
+    io.emit('chat message', msg); // Envía el mensaje a todos los clientes conectados
+    console.log(msg);
   });
 
-  // Escuchar cuando un usuario se desconecta
   socket.on('disconnect', () => {
-    users = users.filter((user) => user !== socket.username);
-    io.emit('user list', users); // Enviar la lista de usuarios actualizada
+    console.log('Usuario desconectado');
   });
 });
 
-server.listen(3000, () => {
-  console.log('Servidor escuchando en el puerto 3000');
+// Iniciar el servidor
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

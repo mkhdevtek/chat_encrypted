@@ -1,5 +1,6 @@
 import string
 import random
+import timeit
 
 def primeBelow(n):
     '''
@@ -19,13 +20,16 @@ def primeBelow(n):
     return primes[-1]
 
 def printMatrix(matrix):
+    print('Matriz:','-'*15)
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             print(matrix[i][j], end = " ")
         print()
+    print('-'*20)
 
 def genRows(lenMsg):
-    return primeBelow(lenMsg//2)
+    newlen = int(lenMsg/100+1)
+    return primeBelow(lenMsg//newlen)
 
 def genCols(mult, total):
     '''
@@ -71,6 +75,7 @@ def traspRC(text, rows, cols):
     mat = genMatrix(rows, cols)
     mat[0][0], mat[rows-1][cols-1] = random.choice(string.ascii_letters), random.choice(string.ascii_letters)
     fillMatRC(mat, text, rows, cols)
+    printMatrix(mat)
     for r in range(cols):
         for c in range(rows):
             msgtrasp += mat[c][r]
@@ -78,24 +83,27 @@ def traspRC(text, rows, cols):
     
 def decryptRC(text, rows, cols, originalSize):
     msgdecrypt = ""
-    mat = genMatrix(cols, rows)
+    mat = genMatrix(rows, cols)
     k = 0
-    for r in range(rows):
-        for c in range(cols):
-            if k < len(text) and mat[c][r] == '':
-                mat[c][r] = text[k]
+    for r in range(cols):
+        for c in range(rows):
+            if k < len(text) and mat[r][c] == '':
+                mat[r][c] = text[k]
                 k += 1
+    printMatrix(mat)
     msgdecrypt = readRC(mat, originalSize)
     return msgdecrypt
-    
-msg = '''Hola chatgpt, como estas? que cuentas, cuentame un chist,
-    \tjajajaj es muy bueno, ahora dame un dato curioso, oh vaya
-no sabia que eso era posible, bla,bla,bla....'''
+
+msg = "Hola mundo!"
+
 print("Original message:", msg)
 print('-'*20)
 
 rows = genRows(len(msg))
 cols = genCols(rows, len(msg))
+print(f'Tamanio del mensaje: {len(msg)}')
+print(f'Tamanio de la matriz: {rows}x{cols}={rows*cols}')
+print('-'*20)
 
 msgtrasp = traspRC(msg, cols, rows)
 print("Message encrypted:", msgtrasp)
