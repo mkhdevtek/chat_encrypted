@@ -8,6 +8,8 @@ const themeSelect = document.getElementById('theme-select');
 
 // const encryption = encrypt_decrypt();
 
+
+const rsa = new RSA();
 let username = '';
 
 // Al hacer clic en "Iniciar Chat"
@@ -16,7 +18,14 @@ startChatButton.addEventListener('click', () => {
   if (username) {
     document.getElementById('user-setup').style.display = 'none';
     document.getElementById('chat-container').style.display = 'block';
-    socket.emit('user joined', username);
+    localStorage.setItem('username', username);
+
+    let publicKey = rsa.publicKey();
+    let privateKey = rsa.privateKey();
+    localStorage.setItem('publicKey', JSON.stringify(publicKey));
+    localStorage.setItem('privateKey', JSON.stringify(privateKey));
+
+    socket.emit('user joined', { username: username, publicKey: publicKey }); // Enviar el nombre del usuario al servidor
   }
 });
 
@@ -25,6 +34,9 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   if (input.value && username) {
     let message = send_message(input.value);
+
+    console.log('Message sent: ')
+    console.table(message);
     // let message = input.value;
     const messageData = {
       username: username,
@@ -35,15 +47,25 @@ form.addEventListener('submit', (e) => {
   }
 });
 
+socket.on('public key', (publicKey) => {
+  console.log('Public key received:', publicKey);
+  localStorage.setItem('otherPublicKey', JSON.stringify(publicKey));
+});
+
 // Escuchar los mensajes desde el servidor
 socket.on('chat message', (msg) => {
   const item = document.createElement('li');
   const messageContainer = document.createElement('div');
+  let privateKey = JSON.parse(localStorage.getItem('privateKey'));
+
 
   let cryptedMsg = msg.message.message;
-  let rows = msg.message.rows;
-  let cols = msg.message.cols;
-  let size = msg.message.size;
+  let rows = decryptRSA(msg.message.rows, privateKey.d, privateKey.n);
+  let cols = decryptRSA(msg.message.cols, privateKey.d, privateKey.n);
+  let size = decryptRSA(msg.message.size, privateKey.d, privateKey.n);
+  console.log('Rows received: ' + rows);
+  console.log('Cols received: ' + cols);
+  console.log('Size received: ' + size);
   console.log('Message received: ' + cryptedMsg);
   let textMsg = decrypt_RC(cryptedMsg, rows, cols, size);
   console.log('Message decrypted: ' + textMsg);
