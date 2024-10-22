@@ -78,8 +78,16 @@ function calculate_d(e, phi) {
 }
 
 function encryptRSA(m, e, n) {
-  return m ** e % n;
+  let M = BigInt(m);
+  let E = BigInt(e);
+  let N = BigInt(n);
+  return Number(M ** E % N);
+  // return m ** e % n;
 }
 function decryptRSA(c, d, n) {
-  return c ** d % n;
+  let C = BigInt(c);
+  let D = BigInt(d);
+  let N = BigInt(n);
+  return Number(C ** D % N);
+  // return c ** d % n;
 }

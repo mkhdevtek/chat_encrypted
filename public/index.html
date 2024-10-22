@@ -22,9 +22,11 @@
 
   <!-- Formulario para ingresar el nombre de usuario -->
   <div id="user-setup">
-    <label for="username">Ingresa tu nombre:</label>
-    <input id="username" type="text" autocomplete="off" />
-    <button id="start-chat">Iniciar Chat</button>
+    <form action="" id="username-form">
+      <label for="username">Ingresa tu nombre:</label>
+      <input id="username" type="text" autocomplete="off" width="150px" />
+      <button id="start-chat">Iniciar Chat</button>
+    </form>
   </div>
 
   <!-- Sección del chat, oculta hasta que el usuario ingresa un nombre -->
@@ -32,7 +34,7 @@
     <!-- Lista de usuarios conectados -->
     <div id="users-list">
       <h3>Usuarios Conectados</h3>
-      <ul id="users"></ul>
+      <ul id="users-list"></ul>
     </div>
 
     <!-- Caja de chat -->

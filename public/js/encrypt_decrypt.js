@@ -106,10 +106,7 @@ function encrypt_RC(text, rows, cols) {
   matrix[rows - 1][cols - 1] = randomLetter();
 
   fill_mat_RC(matrix, text);
-  console.log('Matrix sent:');
-  print_matrix(matrix);
   msgEncrypted = read_CR(matrix);
-  console.log('Message sent:', msgEncrypted);
   return msgEncrypted;
 }
 
@@ -123,8 +120,6 @@ function decrypt_RC(text, rows, cols, originalSize) {
       k++;
     }
   }
-  console.log('Matrix received:');
-  print_matrix(matrix);
   msgDecrypted = read_CR(matrix, originalSize);
   return msgDecrypted;
 }
@@ -138,10 +133,8 @@ function send_message(text) {
   let encrypted = encrypt_RC(text, rows, cols);
   let size = text.length;
 
-  console.log('Original data', text, rows, cols, size);
-
-  rows = encryptRSA(rows, otherPublicKey.publicKey.e, otherPublicKey.publicKey.n);
-  cols = encryptRSA(cols, otherPublicKey.publicKey.e, otherPublicKey.publicKey.n);
-  size = encryptRSA(size, otherPublicKey.publicKey.e, otherPublicKey.publicKey.n);
+  rows = encryptRSA(rows, otherPublicKey.e, otherPublicKey.n);
+  cols = encryptRSA(cols, otherPublicKey.e, otherPublicKey.n);
+  size = encryptRSA(size, otherPublicKey.e, otherPublicKey.n);
   return { message: encrypted, rows: rows, cols: cols, size: size };
 }
