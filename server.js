@@ -15,16 +15,17 @@ io.on('connection', (socket) => {
   console.log('Nuevo usuario conectado');
 
   // Cuando un usuario se une al chat
-  socket.on('user joined', (username) => {
-    io.emit('public key', username); // Enviar la clave pública a todos los clientes conect
-    console.log(`${username.username} se ha unido al chat`);
-    console.table(username);
+  socket.on('user joined', (data) => {
+    io.emit('public key', { username: data.username, publicKey: data.publicKey });
+    // console.log(`${data.username} se ha unido al chat con su clave pública`);
+    console.table(data);
+    // console.table(data.username);
   });
 
   // Escuchar el evento 'chat message' y reenviar el mensaje
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg); // Envía el mensaje a todos los clientes conectados
-    console.table(msg);
+  socket.on('chat message', (data) => {
+    io.emit('chat message', data); // Envía el mensaje a todos los clientes conectados
+    console.table(data.message);
   });
 
   socket.on('disconnect', () => {
