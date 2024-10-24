@@ -8,6 +8,7 @@
   --button-text-color: #e0e0e0; /* Color de texto claro para el botón */
   --border-color: #555; /* Color del borde */
   --text-color: #000;
+  --user-color: #386143;
 }
 
 /* Tema oscuro */
@@ -21,6 +22,7 @@
   --button-text-color: #e0e0e0;
   --border-color: #555;
   --text-color: #ffffff;
+  --user-color: #88ffaa;
 }
 
 body {
@@ -50,6 +52,14 @@ li {
   min-width: 80px;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+#my-user {
+  color: var(--user-color);
+}
+
+#other-user {
+  color: var(--user-color);
 }
 
 #username {

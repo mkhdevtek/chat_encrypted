@@ -6,7 +6,8 @@ const usernameForm = document.getElementById('username-form');
 const usernameInput = document.getElementById('username');
 const startChatButton = document.getElementById('start-chat');
 const themeSelect = document.getElementById('theme-select');
-const userslist = document.getElementById('users-list');
+const myUser = document.getElementById('my-user');
+const otherUser = document.getElementById('other-user');
 
 const rsa = new RSA();
 let username = '';
@@ -19,6 +20,7 @@ usernameForm.addEventListener('submit', (e) => {
     document.getElementById('user-setup').style.display = 'none';
     document.getElementById('chat-container').style.display = 'block';
     localStorage.setItem('username', username);
+    myUser.textContent = username;
 
     let publicKey = rsa.publicKey();
     let privateKey = rsa.privateKey();
@@ -28,6 +30,7 @@ usernameForm.addEventListener('submit', (e) => {
     socket.emit('user joined', { username: username, publicKey: publicKey }); // Enviar el nombre del usuario al servidor
   }
 });
+
 
 // Escuchar el envío del formulario
 form.addEventListener('submit', (e) => {
@@ -72,7 +75,7 @@ socket.on('public key', (data) => {
   item.textContent = data.username;
   // userslist.appendChild(item);
   if (data.username === username) return;
-
+  otherUser.textContent = 'Chateando con: ' + data.username;
   localStorage.setItem('otherPublicKey', JSON.stringify(data.publicKey));
 });
 
