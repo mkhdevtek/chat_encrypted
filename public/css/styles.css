@@ -88,7 +88,7 @@ li {
 .my-message-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 5px;
+  margin-bottom: -2px;
 }
 
 input {

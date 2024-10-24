@@ -29,9 +29,57 @@ Starting with [transposition][1] I wanted to be modular and no matter what lengt
 3. With No. of rows calculated, calculate the number of columns
 4. Write the message in a matrix with size rows*columns and read its transpose
 
+In the second step, the number of rows is adaptable, it means that it doesn't matter the size of the message, always is gonna be a good balance between rows and columns, meaning that we will not have a matrix that is too narrow or squared. The algorithm is:
+``` python
+# Find the last prime number under n,
+def primeBelow(n):
+    '''
+    Gets the largest prime number
+    under the parameter **n**
+    '''
+    primes = []
+    if n < 6:
+        return 3
+    for i in range(2, n):
+        isPrime = True
+        for j in range(2, i):
+            if i % j == 0:
+                isPrime = False
+        if isPrime:
+            primes.append(i)
+    return primes[-1]
 
+# Return the number of rows
+def genRows(lenMsg):
+    '''
+    With every 100 number of characters in our text we divide
+    the original length by its remainder +1, so we have a proper
+    range to work.
+    '''
+    newlen = int(lenMsg/100+1)
+    return primeBelow(lenMsg//newlen)
 
+    
+def genCols(mult, total):
+    '''
+    Returns a number that multiplied by **mult**
+    is less than **total**-2
+    '''
+    i = 1
+    while mult*i < total+2:
+        i+=1
 
+```
+So we first calculate the numbers of columns using the last prime under the size of the message divided by `length/100+1` and then we find a number that multiplied with the number of rows we get the length of the message +2, that +2 will ensure that we have enough space to shift the message in the matrix by 1 in order to put random characters at the begining and at the end.
+
+For example:
+```py
+message = "Hello World!"
+length = 12
+rows = primeBelow(12/(12/100+1)) # = 11
+cols = genCols(11, 12) # 2
+```
+With 
 
 [1]:https://en.wikipedia.org/wiki/Transpose 'Transpose'
 [2]:https://es.wikipedia.org/wiki/RSA 'RSA'

@@ -83,18 +83,18 @@ def traspRC(text, rows, cols):
     
 def decryptRC(text, rows, cols, originalSize):
     msgdecrypt = ""
-    mat = genMatrix(rows, cols)
+    mat = genMatrix(cols, rows)
     k = 0
-    for r in range(cols):
-        for c in range(rows):
-            if k < len(text) and mat[r][c] == '':
-                mat[r][c] = text[k]
+    for r in range(rows):
+        for c in range(cols):
+            if k < len(text) and mat[c][r] == '':
+                mat[c][r] = text[k]
                 k += 1
     printMatrix(mat)
     msgdecrypt = readRC(mat, originalSize)
     return msgdecrypt
 
-msg = "Hola mundo!"
+msg = "Hello world!"
 
 print("Original message:", msg)
 print('-'*20)

@@ -1,5 +1,5 @@
 function randomLetter() {
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
   return alphabet[Math.floor(Math.random() * alphabet.length)];
 }
 
@@ -107,6 +107,8 @@ function encrypt_RC(text, rows, cols) {
 
   fill_mat_RC(matrix, text);
   msgEncrypted = read_CR(matrix);
+  print_matrix(matrix);
+  console.log('Message encrypted:', msgEncrypted);
   return msgEncrypted;
 }
 
@@ -121,6 +123,8 @@ function decrypt_RC(text, rows, cols, originalSize) {
     }
   }
   msgDecrypted = read_CR(matrix, originalSize);
+  print_matrix(matrix);
+  console.log('Message decrypted:', msgDecrypted);
   return msgDecrypted;
 }
 

@@ -47,9 +47,7 @@ form.addEventListener('submit', (e) => {
     const timeElement = document.createElement('span');
     timeElement.textContent = timeText;
     timeElement.classList.add('message-time'); // Añadir clase para estilo
-
     item.textContent = input.value;
-
     // Añadir clases a los elementos
     messageContainer.classList.add('my-message-container');
     item.classList.add('my-message');
@@ -58,7 +56,6 @@ form.addEventListener('submit', (e) => {
     messageContainer.appendChild(item);
     messages.appendChild(messageContainer);
     window.scrollTo(0, document.body.scrollHeight);
-
 
     // let message = input.value;
     const messageData = {
@@ -83,6 +80,7 @@ socket.on('public key', (data) => {
 socket.on('chat message', (data) => {
   const item = document.createElement('li');
   const messageContainer = document.createElement('div');
+
   let privateKey = JSON.parse(localStorage.getItem('privateKey'));
   const time = new Date();
   const hours = time.getHours().toString().padStart(2, '0');
