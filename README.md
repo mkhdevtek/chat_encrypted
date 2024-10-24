@@ -22,7 +22,7 @@ For the backend I wrote a simple server using NodeJs and Socket library for the 
 #### Encryption/decryption
 The most important part of this application was the encrypt/decrypt topic. So for that I created 2 main files which will contain the necesary methods to encrypt the message to send and then decrypt the message received
 
-Starting with [transposition][1] I wanted to be modular and no matter what length was the message it will work. My approach was the following: \
+Starting with [transposition][1] I wanted to be modular and no matter what length was the message it will work. My approach was the following: 
 
 1. Take the length of the message.
 2. Calculate the number of rows that will be used in the matrix
